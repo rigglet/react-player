@@ -1,5 +1,11 @@
+//import styles
+import "./styles/app.scss"
+
+//import compnents
 import Player from "./components/Player"
 import Song from "./components/Song"
+
+
 
 function App() {
   return (
