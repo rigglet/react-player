@@ -33,9 +33,7 @@ function App() {
     //calculate percentage
     const roundedCurrent = Math.round(current);
     const roundedDuration = Math.round(duration);
-    const animation = Math.round(
-      (roundedCurrent / roundedDuration) * 100
-    );
+    const animation = Math.round((roundedCurrent / roundedDuration) * 100);
 
     setSongInfo({
       ...songInfo,
@@ -44,6 +42,13 @@ function App() {
       animationPercentage: animation,
     });
   };
+
+  const songEndHandler = async () => {
+    const currentIndex = songs.findIndex((song) => song.id === currentSong.id);
+    await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+    if (isPlaying) audioRef.current.play();
+  };
+
   return (
     <div className="App">
       <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
@@ -72,6 +77,7 @@ function App() {
         onLoadedMetadata={timeUpdateHandler}
         ref={audioRef}
         src={currentSong.audio}
+        onEnded={songEndHandler}
       ></audio>
     </div>
   );
